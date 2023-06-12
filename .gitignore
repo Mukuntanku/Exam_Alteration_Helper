@@ -4,3 +4,7 @@
 
 # .env files
 /server/.env
+
+#vscode
+.vscode
+.scannerwork

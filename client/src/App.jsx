@@ -22,6 +22,7 @@ import Request from './Faculty/Request'
 import Status from './Faculty/Status'
 import ChangePass from './Faculty/ChangePass'
 import DispPDFFaculty from './Faculty/DispPDFFaculty'
+import Inbox from './Faculty/InboxRequest'
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
         <Route path='/fdashboard/status' element={<Status />}></Route>
         <Route path='/fdashboard/changepass' element={<ChangePass />}></Route>
         <Route path='/fdashboard/dispPDFFaculty' element={<DispPDFFaculty />}></Route>
+        <Route path='/fdashboard/inboxrequest' element={<Inbox />}></Route>
       </Route>
     </Routes>
     </BrowserRouter>

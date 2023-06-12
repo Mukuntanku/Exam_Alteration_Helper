@@ -18,7 +18,7 @@ function Start() {
               className="option employeeOption"
               onClick={e => navigate('/employeeLogin')}
             >
-              Employee
+              Faculty
             </button>
             <button
               className="option adminOption"

@@ -44,6 +44,7 @@ function FDashboard() {
 							<NavItem link="/fdashboard/dispPDFFaculty" name="Exam Schedule" icon="speedometer2"/>
 							<NavItem link="/fdashboard/calender" name="View Exams" icon="speedometer2"/>
 							<NavItem link="/fdashboard/status" name="Requested Status" icon="speedometer2"/>
+							<NavItem link="/fdashboard/inboxrequest" name="Inbox Request" icon="speedometer2"/>
 							<li onClick={handleLogout}>
 								<a href="#" className="nav-link px-0 align-middle text-white">
 									<i className="fs-4 bi-power"></i> <span className="ms-1 d-none d-sm-inline">Logout</span></a>

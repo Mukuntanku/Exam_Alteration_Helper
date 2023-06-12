@@ -39,7 +39,16 @@ export function Products(props) {
                     <div style={{ textAlign: 'center' }} className='productName'>{props.faculty}</div>
                     <br />
 
-                    <button onClick={handleLogout} className='btn btn-dark'>Request</button>
+                    {/* <button onClick={handleLogout} className='btn btn-dark'>Request</button> */}
+                    <div>
+                    {props.status ? (
+                        <button className='btn btn-dark'>{props.status}</button>
+                    ) : (
+                        <button onClick={handleLogout} className='btn btn-dark'>
+                        Request
+                        </button>
+                    )}
+                    </div>
 
                     <div className="d-flex justify-content-center">
                     {/* <Link to={`/fdashboard/request/${props.id}`} className="btn btn-primary btn-sm me-2">Request for change</Link> */}

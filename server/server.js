@@ -397,6 +397,25 @@ app.get('/examslot/:id', (req, res) => {
 })
 
 
+// app.get('/getstatus/:id', (req, res) => {
+//     const id = req.params.id;
+//     const sql = "SELECT * FROM employee WHERE id = ?";
+//     con.query(sql,[id], (err, result) => {
+//         if(err) return res.json({Error: "Get exams error in sql"});
+//         else{
+//             var mail = result[0].email;
+//             const sql1 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?));";
+//             con.query(sql1, [mail], (err, result1) => {
+//                 if(err) return res.json({Error: "Get exams error in sql1"});
+//                 else{
+//                     console.log(result1)
+//                     return res.json({Status: "Success", Result: result1})
+//                 }
+//             })
+//         }
+//     })
+// })
+
 app.get('/getstatus/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
@@ -404,12 +423,43 @@ app.get('/getstatus/:id', (req, res) => {
         if(err) return res.json({Error: "Get exams error in sql"});
         else{
             var mail = result[0].email;
-            const sql1 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?));";
+            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE fmail =(?) ORDER BY id ASC);";
             con.query(sql1, [mail], (err, result1) => {
                 if(err) return res.json({Error: "Get exams error in sql1"});
                 else{
-                    console.log(result1)
-                    return res.json({Status: "Success", Result: result1})
+                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?) ORDER BY id ASC);";
+                    con.query(sql2, [mail], (err, result2) => {
+                        if(err) return res.json({Error: "Get exams error in sql1"});
+                        else{
+                            console.log(result1)
+                            return res.json({Status: "Success", Result: result1, Result1: result2})
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
+app.get('/getrequeststatus/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM employee WHERE id = ?";
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Error: "Get exams error in sql"});
+        else{
+            var mail = result[0].email;
+            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE tmail =(?) ORDER BY id ASC);";
+            con.query(sql1, [mail], (err, result1) => {
+                if(err) return res.json({Error: "Get exams error in sql1"});
+                else{
+                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE tmail =(?) ORDER BY id ASC);";
+                    con.query(sql2, [mail], (err, result2) => {
+                        if(err) return res.json({Error: "Get exams error in sql1"});
+                        else{
+                            console.log(result1)
+                            return res.json({Status: "Success", Result: result1, Result1: result2})
+                        }
+                    })
                 }
             })
         }
@@ -425,13 +475,15 @@ app.post('/setrequest/:id1/:id2/:id3', (req, res) => {
         if(err) return res.json({Error: "Get exams error in sql"});
         else{
             var fmail = result[0].facultymail;
+            var stats = "Pending";
             const values = [
                 fmail,
                 tmail,
                 fid,
-                tid
+                tid,
+                stats
             ]
-            const sql1 = "INSERT INTO requests (`fmail`,`tmail`,`fexamid`,`texamid`) VALUES (?)";
+            const sql1 = "INSERT INTO requests (`fmail`,`tmail`,`fexamid`,`texamid`, `status`) VALUES (?)";
             con.query(sql1, [values], (err, result1) => {
                 if(err) return res.json({Error: err});
                 else{
@@ -443,6 +495,47 @@ app.post('/setrequest/:id1/:id2/:id3', (req, res) => {
     })
 })
 
+app.get('/getcurrentstatus/:id1/:id2', (req, res) => {
+    const fid = req.params.id1;
+    const tid = req.params.id2;
+    const sql = "SELECT status FROM requests WHERE fexamid = ? AND texamid = ?";
+    con.query(sql, [fid, tid], (err, result) => {
+      if (err) {
+        return res.json({ Error: "Get exams error in SQL" });
+      } else {
+        if (result.length === 0) {
+          return res.json({ Status: "Success", Result: 0 });
+        } else {
+            // console.log(result[0].status)
+          return res.json({ Status: "Success", Result: result[0].status });
+        }
+      }
+    });
+});
+
+app.put('/approverequest/:id/:id2', (req, res) => {
+    const fid = req.params.id1;
+    const tid = req.params.id2;
+    const sql = "SELECT password FROM employee WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+      if (err) return res.json({ Error: "error in mysql fetch" });
+      bcrypt.compare(currentpass.toString(), result[0].password, (err, isMatch) => {
+        if (err) return res.json({ Error: "error in bcrypt" });
+        if (isMatch) {
+          bcrypt.hash(newpass.toString(), 10, (err, hash) => {
+            if (err) return res.json({ Error: "error in bcrypt" });
+            const sql = "UPDATE employee SET password = ? WHERE id = ?";
+            con.query(sql, [hash, id], (err, result) => {
+              if (err) return res.json({ Error: "error in mysql update" });
+              return res.json({ Status: "Success" });
+            });
+          });
+        } else {
+          return res.json({ Error: "Current password mismatch!!!" });
+        }
+      });
+    });
+})
 
 app.listen(process.env.SERVER_PORT, ()=> {
     console.log("Running on port "+process.env.SERVER_PORT);
