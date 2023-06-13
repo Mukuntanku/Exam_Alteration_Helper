@@ -38,7 +38,7 @@ function Home() {
         {/* Employee count */}
         <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
           <div className='text-center pb-1'>
-            <h4>Employee</h4>
+            <h4>Faculty</h4>
           </div>
           <hr />
           <div className=''>

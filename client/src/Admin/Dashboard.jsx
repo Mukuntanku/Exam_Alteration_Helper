@@ -43,7 +43,6 @@ function Dashboard() {
 							<NavItem link="/employee" name="Manage Faculty" icon="people"/>
 							<NavItem link="/exam" name="Create exam" icon="person"/>
 							<NavItem link="/dispPDF" name="Time Table" icon="person"/>
-							<NavItem link="" name="Manage rooms" icon="person"/>
 							<NavItem link="/dispexam" name="Display All Exams" icon="person"/>
 							<li onClick={handleLogout}>
 								<a href="#" className="nav-link px-0 align-middle text-white">
