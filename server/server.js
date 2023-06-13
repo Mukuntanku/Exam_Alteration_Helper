@@ -316,6 +316,22 @@ function uploadCsv(path,req){
             const rowData = csvDataColl[i];          
             con.query(query, [rowData], (error, res) => {
 
+                var transporter = nodemailer.createTransport(smtpConfig);
+            
+                var mailOptions = {
+                from: process.env.MAIL_USER,
+                to: rowData[7],
+                subject: 'Exam Invigilation Duty',
+                text: `You have alloted to the invigilation duty for the ${rowData[8]} exam ${rowData[9]}!\n\nCourse: ${rowData[5]}\nDate: ${rowData[0]}\nSlot: ${rowData[1]}\nRoom Number: ${rowData[4]}\nStart Time: ${rowData[2]}\n\nPlease be present at the exam hall 15 minutes before the exam starts.`
+                };
+                  
+                transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+                });
             });
         }
         fs.unlinkSync(path) 
@@ -396,26 +412,6 @@ app.get('/examslot/:id', (req, res) => {
     })
 })
 
-
-// app.get('/getstatus/:id', (req, res) => {
-//     const id = req.params.id;
-//     const sql = "SELECT * FROM employee WHERE id = ?";
-//     con.query(sql,[id], (err, result) => {
-//         if(err) return res.json({Error: "Get exams error in sql"});
-//         else{
-//             var mail = result[0].email;
-//             const sql1 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?));";
-//             con.query(sql1, [mail], (err, result1) => {
-//                 if(err) return res.json({Error: "Get exams error in sql1"});
-//                 else{
-//                     console.log(result1)
-//                     return res.json({Status: "Success", Result: result1})
-//                 }
-//             })
-//         }
-//     })
-// })
-
 app.get('/getstatus/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
@@ -448,11 +444,11 @@ app.get('/getrequeststatus/:id', (req, res) => {
         if(err) return res.json({Error: "Get exams error in sql"});
         else{
             var mail = result[0].email;
-            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE tmail =(?) ORDER BY id ASC);";
+            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE tmail =(?) AND status = `Pending` ORDER BY id ASC);";
             con.query(sql1, [mail], (err, result1) => {
                 if(err) return res.json({Error: "Get exams error in sql1"});
                 else{
-                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE tmail =(?) ORDER BY id ASC);";
+                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE tmail =(?) AND status = `Pending` ORDER BY id ASC);";
                     con.query(sql2, [mail], (err, result2) => {
                         if(err) return res.json({Error: "Get exams error in sql1"});
                         else{
@@ -487,7 +483,24 @@ app.post('/setrequest/:id1/:id2/:id3', (req, res) => {
             con.query(sql1, [values], (err, result1) => {
                 if(err) return res.json({Error: err});
                 else{
-                    console.log(result1)
+
+                    var transporter = nodemailer.createTransport(smtpConfig);
+            
+                    var mailOptions = {
+                    from: process.env.MAIL_USER,
+                    to: tmail,
+                    subject: 'Request for Exchange of Invigilation Duty',
+                    text: `Request received for exchange of invigilation duty from ${fmail}\n\nPlease check your Inbox Request section in Exam_Alteration_Helper System to either approve or reject.`
+                    };
+                      
+                    transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                    });
+
                     return res.json({Status: "Success", Result: result1})
                 }
             })
@@ -513,28 +526,98 @@ app.get('/getcurrentstatus/:id1/:id2', (req, res) => {
     });
 });
 
-app.put('/approverequest/:id/:id2', (req, res) => {
-    const fid = req.params.id1;
+app.put('/approverequest/:id/:id2/:name1/:name2/:mail1/:mail2', (req, res) => {
+    const fid = req.params.id;
     const tid = req.params.id2;
-    const sql = "SELECT password FROM employee WHERE id = ?";
-    con.query(sql, [id], (err, result) => {
-      if (err) return res.json({ Error: "error in mysql fetch" });
-      bcrypt.compare(currentpass.toString(), result[0].password, (err, isMatch) => {
-        if (err) return res.json({ Error: "error in bcrypt" });
-        if (isMatch) {
-          bcrypt.hash(newpass.toString(), 10, (err, hash) => {
-            if (err) return res.json({ Error: "error in bcrypt" });
-            const sql = "UPDATE employee SET password = ? WHERE id = ?";
-            con.query(sql, [hash, id], (err, result) => {
-              if (err) return res.json({ Error: "error in mysql update" });
-              return res.json({ Status: "Success" });
-            });
-          });
-        } else {
-          return res.json({ Error: "Current password mismatch!!!" });
+    const fname = req.params.name1;
+    const tname = req.params.name2;
+    const fmail = req.params.mail1;
+    const tmail = req.params.mail2;
+    const approve = "Approved";
+  
+    con.beginTransaction((err) => {
+        if (err) {
+            return res.json({ Error: "Failed to begin transaction" });
         }
-      });
+      
+        const sql1 = "UPDATE requests SET status = ? WHERE fexamid = ? AND texamid = ?;";
+        con.query(sql1, [approve, fid, tid], (err, result) => {
+            if (err) {
+                con.rollback(() => {
+                    return res.json({ Error: "Error updating requests table" });
+                });
+            } else {
+                const sql2 = "UPDATE examdetails SET facultyname = ?, facultymail = ? WHERE id = ?;";
+                con.query(sql2, [tname, tmail, fid], (err, result) => {
+                    if (err) {
+                        con.rollback(() => {
+                            return res.json({ Error: "Error updating examdetails table" });
+                        });
+                    } else {
+                        const sql3 = "UPDATE examdetails SET facultyname = ?, facultymail = ? WHERE id = ?;";
+                        con.query(sql3, [fname, fmail, tid], (err, result) => {
+                            if (err) {
+                                con.rollback(() => {
+                                    return res.json({ Error: "Error updating examdetails table" });
+                                });
+                            } else {
+                                con.commit((err) => {
+                                    if (err) {
+                                        con.rollback(() => {
+                                            return res.json({ Error: "Failed to commit transaction" });
+                                        });
+                                    } else {
+
+                                        var transporter = nodemailer.createTransport(smtpConfig);
+            
+                                        var mailOptions = {
+                                        from: process.env.MAIL_USER,
+                                        to: tmail,
+                                        subject: 'Request for Exchange of Invigilation Duty',
+                                        text: `The faculty has accepted your swap request from ${tmail}\n\nPlease check your Exam_Alteration_Helper System.`
+                                        };
+                                          
+                                        transporter.sendMail(mailOptions, function(error, info){
+                                        if (error) {
+                                            console.log(error);
+                                        } else {
+                                            console.log('Email sent: ' + info.response);
+                                        }
+                                        });
+
+                                        return res.json({ Status: "Success" });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
+});
+
+app.put('/rejectrequest/:id/:id2/:name1/:name2/:mail1/:mail2', (req, res) => {
+    const fid = req.params.id;
+    const tid = req.params.id2;
+    const approve = "Rejected";   
+    const sql = "UPDATE requests SET status = ? WHERE fexamid = ? AND texamid = ?;";
+    con.query(sql, [approve, fid, tid], (err, result) => {
+      if (err) {
+        return res.json({ Error: "Get exams error in SQL" });
+      } else {
+        return res.json({ Status: "Success"});
+      }
+    });
+});
+
+
+app.get('/getRatings', (req, res) => {
+    const sql = "SELECT Employee.name, Employee.department, Employee.image, Leaderboard.rating FROM Leaderboard JOIN Employee ON Leaderboard.fid = Employee.id";
+    con.query(sql,(err, result) => {
+        if(err) return res.json({Error: "Get employee error in sql"});
+        return res.json({Status: "Success", Result: result})
+    })
 })
 
 app.listen(process.env.SERVER_PORT, ()=> {

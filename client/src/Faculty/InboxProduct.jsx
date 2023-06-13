@@ -1,16 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export function InboxProducts(props) {
+    const navigate = useNavigate()
   const trimmedDate = props.date.slice(0, 10);
   const trimmedDate1 = props.date1.slice(0, 10);
 
   const handleAccept = () => {
     alert(`Accepted request with ID: ${props.id} ${props.id1}`);
-    axios.get('http://localhost:8081/approverequest/'+props.id1+'/'+props.id)
+    axios.put('http://localhost:8081/approverequest/'+props.id1+'/'+props.id+'/'+props.faculty1+'/'+props.faculty+'/'+props.mail1+'/'+props.mail)
           .then(res => {
             if (res.data.Status === "Success") {
-
+                alert("Request Approved Successfully");
+                navigate('/fdashboard')
             } else {
               alert("Error");
             }
@@ -20,6 +23,16 @@ export function InboxProducts(props) {
 
   const handleReject = () => {
     alert(`Rejected request with ID: ${props.id}`);
+    axios.put('http://localhost:8081/rejectrequest/'+props.id1+'/'+props.id)
+          .then(res => {
+            if (res.data.Status === "Success") {
+                alert("Rejected Successfully");
+                navigate('/fdashboard')
+            } else {
+              alert("Error");
+            }
+          })
+          .catch(err => console.log(err)); 
   };
 
   return (

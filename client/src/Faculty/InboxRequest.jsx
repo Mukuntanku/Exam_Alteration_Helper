@@ -24,7 +24,6 @@ function InboxRequest() {
               console.log(res.data.Result)
               console.log(res.data.Result1)
             } else {
-              alert("Error");
             }
           })
           .catch(err => console.log(err));
