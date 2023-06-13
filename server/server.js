@@ -13,6 +13,7 @@ import bodyParser from 'body-parser'
 import csv from 'fast-csv'
 import fs from 'fs'
 import dotenv from 'dotenv';
+import { error } from 'console'
 dotenv.config();
 
 const app = express();
@@ -415,16 +416,17 @@ app.get('/examslot/:id', (req, res) => {
 app.get('/getstatus/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
+    var stats = "Pending";
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Error: "Get exams error in sql"});
         else{
             var mail = result[0].email;
-            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE fmail =(?) ORDER BY id ASC);";
-            con.query(sql1, [mail], (err, result1) => {
+            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE fmail =(?) AND status = ? ORDER BY id ASC);";
+            con.query(sql1, [mail, stats], (err, result1) => {
                 if(err) return res.json({Error: "Get exams error in sql1"});
                 else{
-                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?) ORDER BY id ASC);";
-                    con.query(sql2, [mail], (err, result2) => {
+                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE fmail =(?) AND status = ? ORDER BY id ASC);";
+                    con.query(sql2, [mail, stats], (err, result2) => {
                         if(err) return res.json({Error: "Get exams error in sql1"});
                         else{
                             console.log(result1)
@@ -440,16 +442,18 @@ app.get('/getstatus/:id', (req, res) => {
 app.get('/getrequeststatus/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
+    var stats = "Pending"
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Error: "Get exams error in sql"});
         else{
             var mail = result[0].email;
-            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE tmail =(?) AND status = `Pending` ORDER BY id ASC);";
-            con.query(sql1, [mail], (err, result1) => {
+            console.log(mail);
+            const sql1 = "select * from examdetails where id in (SELECT fexamid FROM requests WHERE tmail =(?) AND status = ? ORDER BY id ASC);";
+            con.query(sql1, [mail, stats], (err, result1) => {
                 if(err) return res.json({Error: "Get exams error in sql1"});
                 else{
-                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE tmail =(?) AND status = `Pending` ORDER BY id ASC);";
-                    con.query(sql2, [mail], (err, result2) => {
+                    const sql2 = "select * from examdetails where id in (SELECT texamid FROM requests WHERE tmail =(?) AND status = ? ORDER BY id ASC);";
+                    con.query(sql2, [mail, stats], (err, result2) => {
                         if(err) return res.json({Error: "Get exams error in sql1"});
                         else{
                             console.log(result1)

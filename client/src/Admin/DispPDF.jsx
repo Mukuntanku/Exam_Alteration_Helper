@@ -113,7 +113,7 @@ function DispPDF() {
             <tbody>
               {tabledata.map((row, index) => (
                 <tr key={index}>
-                  <td>{row.date}</td>
+                  <td>{row.date.split("T")[0]}</td>
                   <td>{row.slot}</td>
                   <td>{row.starttime}</td>
                   <td>{row.endtime}</td>

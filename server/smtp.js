@@ -5,8 +5,8 @@ var smtpConfig = {
     port: 465,
     secure: true,
     auth: {
-        user: "thalaiva7399@gmail.com",
-        pass: "odrrmitdabqbtsns"
+        user: "examalterationhelper21@gmail.com",
+        pass: "aolktfthtsjybxrf"
     }
 };
 
