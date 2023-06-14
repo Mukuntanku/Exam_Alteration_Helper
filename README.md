@@ -16,3 +16,19 @@ The Exam Alteration Helper is a software development project aimed at facilitati
 10. Node.js
 11. Express.js
 12. React
+
+## Installation and Setup Instructions
+
+Clone down the repository. You will need `node` and `npm` installed globally on your machine and xampp server for MySQL database.  
+
+To Start Frontend Server (React):
+
+`cd client` 
+`npm install` 
+`npm start`
+
+To Start Backend Server (Node):
+
+`cd client` 
+`npm install` 
+`npm start` 
