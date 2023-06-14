@@ -21,14 +21,18 @@ The Exam Alteration Helper is a software development project aimed at facilitati
 
 Clone down the repository. You will need `node` and `npm` installed globally on your machine and xampp server for MySQL database.  
 
-To Start Frontend Server (React):
+To Start Frontend Server (Node):
 
-`cd client` 
-`npm install` 
+`cd server`
+
+`npm install`
+
 `npm start`
 
-To Start Backend Server (Node):
+To Start Backend Server (React):
 
-`cd client` 
-`npm install` 
-`npm start` 
+`cd client`
+
+`npm install`
+
+`npm start`
