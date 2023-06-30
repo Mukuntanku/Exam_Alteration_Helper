@@ -28,14 +28,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-// const con = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DATABASE
-// })
-
 const con = mysql.createConnection(process.env.urlDB)
+
+con.connect(function(err) {
+    if(err) {
+        console.log("Error in Connection");
+    } else {
+        console.log("Connected");
+    }
+})
 
 var smtpConfig = {
     host: process.env.MAIL_HOST,
@@ -75,14 +76,6 @@ const storagepdf = multer.diskStorage({
 
 const uploadpdf = multer({
     storage: storagepdf
-})
-
-con.connect(function(err) {
-    if(err) {
-        console.log("Error in Connection");
-    } else {
-        console.log("Connected");
-    }
 })
 
 app.get('/getEmployee', (req, res) => {
@@ -626,6 +619,6 @@ app.get('/getRatings', (req, res) => {
     })
 })
 
-app.listen(process.env.SERVER_PORT, ()=> {
+app.listen(process.env.SERVER_PORT, "0.0.0.0",  ()=> {
     console.log("Running on port "+process.env.SERVER_PORT);
 })
