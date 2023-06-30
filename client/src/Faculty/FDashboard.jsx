@@ -9,7 +9,7 @@ function FDashboard() {
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
 	useEffect(()=>{
-		axios.get('http://localhost:8081/fdashboard')
+		axios.get(`${process.env.NODE_URL}/fdashboard`)
 		.then(res => {
 			if(res.data.Status === "Success") {
 				if(res.data.role === "faculty") {
@@ -25,7 +25,7 @@ function FDashboard() {
 	}, [])
 
 	const handleLogout = () => {
-		axios.get('http://localhost:8081/logout')
+		axios.get(`${process.env.NODE_URL}/logout`)
 		.then(res => {
 			navigate('/start')
 		}).catch(err => console.log(err));

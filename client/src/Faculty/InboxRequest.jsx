@@ -11,12 +11,12 @@ function InboxRequest() {
 
   useEffect(() => {
     var id;
-    axios.get('http://localhost:8081/fdashboard')
+    axios.get(`${process.env.NODE_URL}/fdashboard`)
       .then(res => {
         console.log(res);
         id = res.data.id;
         
-        axios.get('http://localhost:8081/getrequeststatus/' + id)
+        axios.get(`${process.env.NODE_URL}/getrequeststatus/` + id)
           .then(res => {
             if (res.data.Status === "Success") {
               setFData(res.data.Result);

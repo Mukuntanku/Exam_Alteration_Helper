@@ -8,10 +8,10 @@ import { Products } from './Products';
 
   useEffect(()=> {
     var id;
-    axios.get('http://localhost:8081/fdashboard')
+    axios.get(`${process.env.NODE_URL}/fdashboard`)
 		.then(res => {
 			id = res.data.id;
-            axios.get('http://localhost:8081/getExams/'+id)
+            axios.get(`${process.env.NODE_URL}/getExams/`+id)
             .then(res => {
               if(res.data.Status === "Success") {
                 setData(res.data.Result);

@@ -15,7 +15,7 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post('http://localhost:8081/login', values)
+      .post(`${process.env.NODE_URL}/login`, values)
       .then((res) => {
         if (res.data.Status === 'Success') {
           navigate('/');

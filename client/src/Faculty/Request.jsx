@@ -10,7 +10,7 @@ function Request() {
   const [stats, setStatus] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/examslot/' + id)
+    axios.get(`${process.env.NODE_URL}/examslot/` + id)
       .then(res => {
         setData(res.data.Result);
       })
@@ -18,7 +18,7 @@ function Request() {
   }, []);
 
   const getstatus = (tid) => {
-    return axios.get('http://localhost:8081/getcurrentstatus/' + id + '/' + tid)
+    return axios.get(`${process.env.NODE_URL}/getcurrentstatus/` + id + '/' + tid)
       .then(res => {
         if (res.data.Status === "Success") {
           return res.data.Result;

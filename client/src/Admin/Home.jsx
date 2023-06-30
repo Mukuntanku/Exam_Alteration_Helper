@@ -7,14 +7,14 @@ function Home() {
   const [employeeCount, setEmployeeCount] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/adminCount')
+    axios.get(`${process.env.NODE_URL}/adminCount`)
       .then(res => {
         setAdminCount(res.data.length);
         setAdminEmail(res.data);
       })
       .catch(err => console.log(err));
 
-    axios.get('http://localhost:8081/employeeCount')
+    axios.get(`${process.env.NODE_URL}/employeeCount`)
       .then(res => {
         setEmployeeCount(res.data[0].employee);
       })
