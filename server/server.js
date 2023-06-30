@@ -28,12 +28,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
-const con = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
+// const con = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE
+// })
+
+const urlDB = 'mysql://root:DV15NIhtBewbmeFsj0aJ@containers-us-west-148.railway.app:5463/railway'
+const con = mysql.createConnection(urlDB)
 
 var smtpConfig = {
     host: process.env.MAIL_HOST,
