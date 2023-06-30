@@ -1,10 +1,10 @@
 .loginPage {
-    background: url('bg_new_new.png');
+    background: url('background/bg_new_new.png');
     background: linear-gradient(
         rgba(11, 11, 11, 0.5),
         rgba(10, 10, 10, 0.5)
       ),
-      url('bg_new_new.png');
+      url('background/bg_new_new.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -13,19 +13,19 @@
 
 @keyframes slideshow {
   0% {
-    background-image: url('bg_new_new.png');
+    background-image: url('background/bg_new_new.png');
   }
   25% {
-    background-image: url('bg_2.jpeg');
+    background-image: url('background/bg_2.jpeg');
   }
   50% {
-    background-image: url('bg_3.jpeg');
+    background-image: url('background/bg_3.jpeg');
   }
   75% {
-    background-image: url('bg_4.jpg');
+    background-image: url('background/bg_4.jpg');
   }
   100% {
-    background-image: url('bg_5.jpg');
+    background-image: url('background/bg_5.jpg');
 }
 }
 .mainTitle {

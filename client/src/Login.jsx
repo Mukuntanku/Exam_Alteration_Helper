@@ -3,7 +3,7 @@ import './style.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 // Import the logo image
-import logo from './logo.png';
+import logo from './background/logo.png';
 function Login() {
   const [values, setValues] = useState({
     email: '',

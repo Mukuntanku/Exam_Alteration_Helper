@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Start.css'; // Import CSS file for custom styling
-import logo from './logo.png';
+import logo from './background/logo.png';
 function Start() {
   const navigate = useNavigate();
   return (
