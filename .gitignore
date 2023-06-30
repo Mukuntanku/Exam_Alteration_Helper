@@ -9,6 +9,7 @@
 #vscode
 .vscode
 .scannerwork
+.metals
 
 # additional details
 /details
