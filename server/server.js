@@ -619,6 +619,6 @@ app.get('/getRatings', (req, res) => {
     })
 })
 
-app.listen(process.env.SERVER_PORT, "0.0.0.0",  ()=> {
+app.listen(process.env.SERVER_PORT,  ()=> {
     console.log("Running on port "+process.env.SERVER_PORT);
 })
