@@ -35,8 +35,7 @@ app.use(express.static('public'));
 //     database: process.env.DB_DATABASE
 // })
 
-const urlDB = 'mysql://root:DV15NIhtBewbmeFsj0aJ@containers-us-west-148.railway.app:5463/railway'
-const con = mysql.createConnection(urlDB)
+const con = mysql.createConnection(process.env.urlDB)
 
 var smtpConfig = {
     host: process.env.MAIL_HOST,
