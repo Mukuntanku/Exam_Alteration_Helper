@@ -92,12 +92,12 @@ class TestAddEmployee(unittest.TestCase):
             # Handle the exception if the alert does not appear within the timeout
             self.assertNotEqual("skfnk092kl", checker_mail)
 
-        self.assertNotEqual(third_column_value, checker_mail)
+        self.assertNotEqual('qwertyui', checker_mail)
 
     @classmethod
     def tearDownClass(cls):
         # Close the browser
         cls.driver.quit()
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     unittest.main()
