@@ -1,18 +1,19 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
-const csv = require('fast-csv');
-const fs = require('fs');
-const dotenv = require('dotenv');
-const { error } = require('console');
+import express from 'express'
+import mysql from 'mysql2'
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import multer from 'multer'
+import path from 'path'
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
+
+import bodyParser from 'body-parser'
+import csv from 'fast-csv'
+import fs from 'fs'
+import dotenv from 'dotenv';
+import { error } from 'console'
 dotenv.config();
 
 const app = express();
