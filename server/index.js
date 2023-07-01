@@ -29,6 +29,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
+const options = {
+    isServer: true,
+};
+
 const con = mysql.createConnection(process.env.urlDB)
 
 con.connect(function(err) {
