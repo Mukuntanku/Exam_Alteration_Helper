@@ -625,6 +625,6 @@ app.get('/', (req, res) => {
     res.send('Exam_Alteration_Helper NodeJS Server Connected Successfully');
 });
 
-app.listen(process.env.PORT,  ()=> {
+app.listen(process.env.PORT, "0.0.0.0", ()=> {
     console.log("Running on port "+process.env.PORT);
 })
