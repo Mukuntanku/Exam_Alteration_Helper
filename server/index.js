@@ -619,6 +619,11 @@ app.get('/getRatings', (req, res) => {
     })
 })
 
+// Define a route handler for the root URL
+app.get('/', (req, res) => {
+    res.send('Exam_Alteration_Helper NodeJS Server Connected Successfully');
+});
+
 app.listen(process.env.SERVER_PORT,  ()=> {
     console.log("Running on port "+process.env.SERVER_PORT);
 })
