@@ -17,19 +17,25 @@ import { error } from 'console'
 dotenv.config();
 
 const app = express();
-app.use(cors);
-// app.use(cors(
-//     {
-//         origin: ["*"],
-//         methods: ["POST", "GET", "PUT"],
-//         credentials: true
-//     }
-// ));
+// app.use(cors);
+app.use(cors(
+    {
+        origin: ["*"],
+        methods: ["POST", "GET", "PUT"],
+        credentials: true
+    }
+));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
 
 const con = mysql.createConnection(process.env.urlDB)
+// const con = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE
+// })
 
 con.connect(function(err) {
     if(err) {
@@ -626,6 +632,6 @@ app.get('/', (req, res) => {
     res.send('Exam_Alteration_Helper NodeJS Server Connected Successfully');
 });
 
-app.listen(process.env.PORT, "0.0.0.0", ()=> {
+app.listen(process.env.PORT, ()=> {
     console.log("Running on port "+process.env.PORT);
 })
