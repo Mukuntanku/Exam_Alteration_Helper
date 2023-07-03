@@ -17,7 +17,6 @@ import { error } from 'console'
 dotenv.config();
 
 const app = express();
-// app.use(cors);
 app.use(cors(
     {
         origin: ["*"],
@@ -628,7 +627,6 @@ app.get('/getRatings', (req, res) => {
 
 // Define a route handler for the root URL
 app.get('/', (req, res) => {
-    console.log('Exam_Alteration_Helper NodeJS Server Connected Successfully');
     res.send('Exam_Alteration_Helper NodeJS Server Connected Successfully');
 });
 
