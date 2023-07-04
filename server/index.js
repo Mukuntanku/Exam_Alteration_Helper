@@ -16,6 +16,8 @@ import dotenv from 'dotenv';
 import { error } from 'console'
 dotenv.config();
 
+const con = require("/database/index")
+
 const app = express();
 app.use(cors(
     {
@@ -29,20 +31,20 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // const con = mysql.createConnection(process.env.urlDB)
-const con = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
+// const con = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE
+// })
 
-con.connect(function(err) {
-    if(err) {
-        console.log("Error in Connection");
-    } else {
-        console.log("Successfully Connected to MySQL Database");
-    }
-})
+// con.connect(function(err) {
+//     if(err) {
+//         console.log("Error in Connection");
+//     } else {
+//         console.log("Successfully Connected to MySQL Database");
+//     }
+// })
 
 var smtpConfig = {
     host: process.env.MAIL_HOST,
