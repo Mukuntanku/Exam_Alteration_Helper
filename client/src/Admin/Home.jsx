@@ -7,14 +7,14 @@ function Home() {
   const [employeeCount, setEmployeeCount] = useState(0);
 
   useEffect(() => {
-    axios.get(`${process.env.NODE_URL}/adminCount`)
+    axios.get('https://exam-alteration-helper.onrender.com/adminCount')
       .then(res => {
         setAdminCount(res.data.length);
         setAdminEmail(res.data);
       })
       .catch(err => console.log(err));
 
-    axios.get(`${process.env.NODE_URL}/employeeCount`)
+    axios.get('https://exam-alteration-helper.onrender.com/employeeCount')
       .then(res => {
         setEmployeeCount(res.data[0].employee);
       })

@@ -6,13 +6,13 @@ export default function Board() {
     const [data, setData] = useState([])
     useEffect(()=> {
         var id;
-        axios.get(`${process.env.NODE_URL}/fdashboard`)
+        axios.get('https://exam-alteration-helper.onrender.com/fdashboard')
             .then(res => {
                 console.log(res);
                 id = res.data.id;
                 console.log(id)
                 //
-                axios.get(`${process.env.NODE_URL}/getRatings`)
+                axios.get('https://exam-alteration-helper.onrender.com/getRatings')
                 .then(res => {
                   if(res.data.Status === "Success") {
                     console.log(res.data.Result);

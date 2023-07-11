@@ -6,7 +6,7 @@ function Employee() {
   const [data, setData] = useState([])
 
   useEffect(()=> {
-    axios.get(`${process.env.NODE_URL}/getEmployee`)
+    axios.get('https://exam-alteration-helper.onrender.com/getEmployee')
     .then(res => {
       if(res.data.Status === "Success") {
         setData(res.data.Result);
@@ -16,18 +16,6 @@ function Employee() {
     })
     .catch(err => console.log(err));
   }, [])
-
-  const handleDelete = (id) => {
-    axios.delete(`${process.env.NODE_URL}/delete/`+id)
-    .then(res => {
-      if(res.data.Status === "Success") {
-        window.location.reload(true);
-      } else {
-        alert("Error")
-      }
-    })
-    .catch(err => console.log(err));
-  }
 
   return (
     <div className='px-5 py-3'>

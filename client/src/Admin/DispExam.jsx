@@ -7,9 +7,9 @@ import { Products } from './DispExamProd';
     const [data, setData] = useState([])
 
   useEffect(()=> {
-    axios.get(`${process.env.NODE_URL}/fdashboard`)
+    axios.get('https://exam-alteration-helper.onrender.com/fdashboard')
 		.then(res => {
-            axios.get(`${process.env.NODE_URL}/getAllExams/`)
+            axios.get('https://exam-alteration-helper.onrender.com/getAllExams/')
             .then(res => {
               if(res.data.Status === "Success") {
                 setData(res.data.Result);

@@ -13,10 +13,10 @@ function ChangePass() {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		var id1;
-		axios.get(`${process.env.NODE_URL}/fdashboard`)
+		axios.get('https://exam-alteration-helper.onrender.com/fdashboard')
 		.then(res => {
 			id1 = res.data.id;
-			axios.put(`${process.env.NODE_URL}/changepass/`+id1, data)
+			axios.put('https://exam-alteration-helper.onrender.com/changepass/'+id1, data)
 			.then(res => {
 				if(res.data.Status === "Success") {
                     alert('Password Changed Successfully');

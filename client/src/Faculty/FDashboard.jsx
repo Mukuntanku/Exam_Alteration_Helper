@@ -9,7 +9,7 @@ function FDashboard() {
 	const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
 	useEffect(()=>{
-		axios.get(`${process.env.NODE_URL}/fdashboard`)
+		axios.get('https://exam-alteration-helper.onrender.com/fdashboard')
 		.then(res => {
 			if(res.data.Status === "Success") {
 				if(res.data.role === "faculty") {
@@ -25,7 +25,7 @@ function FDashboard() {
 	}, [])
 
 	const handleLogout = () => {
-		axios.get(`${process.env.NODE_URL}/logout`)
+		axios.get('https://exam-alteration-helper.onrender.com/logout')
 		.then(res => {
 			navigate('/start')
 		}).catch(err => console.log(err));

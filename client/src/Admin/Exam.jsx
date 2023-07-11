@@ -29,7 +29,7 @@ const Exam = () => {
     formData.append('csvFile', csvFile);
     formData.append('pdfFile', pdfFile);
 
-    axios.post(`${process.env.NODE_URL}/examdetails`, formData, {
+    axios.post('https://exam-alteration-helper.onrender.com/examdetails', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(() => {

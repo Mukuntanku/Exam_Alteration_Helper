@@ -10,11 +10,11 @@ function EmployeeDetail() {
   useEffect(() => {
     var id;
     axios
-      .get(`${process.env.NODE_URL}/fdashboard`)
+      .get('https://exam-alteration-helper.onrender.com/fdashboard')
       .then((res) => {
         id = res.data.id;
         axios
-          .get(`${process.env.NODE_URL}/get/` + id)
+          .get('https://exam-alteration-helper.onrender.com/get/' + id)
           .then((res) => setEmployee(res.data.Result[0]))
           .catch((err) => console.log(err));
       })

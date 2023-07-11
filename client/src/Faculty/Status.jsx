@@ -11,13 +11,13 @@ function Status() {
 
   useEffect(() => {
     var id;
-    axios.get(`${process.env.NODE_URL}/fdashboard`)
+    axios.get('https://exam-alteration-helper.onrender.com/fdashboard')
       .then(res => {
         console.log(res);
         id = res.data.id;
         console.log(id);
         
-        axios.get(`${process.env.NODE_URL}/getstatus/` + id)
+        axios.get('https://exam-alteration-helper.onrender.com/getstatus/' + id)
           .then(res => {
             if (res.data.Status === "Success") {
               setFData(res.data.Result);

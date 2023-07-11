@@ -9,17 +9,16 @@ import path from 'path'
 import crypto from 'crypto'
 import nodemailer from 'nodemailer'
 
-import bodyParser from 'body-parser'
 import csv from 'fast-csv'
 import fs from 'fs'
 import dotenv from 'dotenv';
-import { error } from 'console'
+
 dotenv.config();
 
 const app = express();
 app.use(cors(
     {
-        origin: ["*"],
+        origin: ["http://localhost:3000"],
         methods: ["POST", "GET", "PUT"],
         credentials: true
     }
@@ -27,22 +26,6 @@ app.use(cors(
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
-
-// const con = mysql.createConnection(process.env.urlDB)
-// const con = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_DATABASE
-// })
-
-// con.connect(function(err) {
-//     if(err) {
-//         console.log("Error in Connection");
-//     } else {
-//         console.log("Successfully Connected to MySQL Database");
-//     }
-// })
 
 const con = mysql.createPool({
     host: process.env.DB_HOST, 
@@ -164,15 +147,6 @@ app.put('/changepass/:id', (req, res) => {
     });
 })
 
-app.delete('/delete/:id', (req, res) => {
-    const id = req.params.id;
-    const sql = "Delete FROM employee WHERE id = ?";
-    con.query(sql, [id], (err, result) => {
-        if(err) return res.json({Error: "delete employee error in sql"});
-        return res.json({Status: "Success"})
-    })
-})
-
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
     if(!token) {
@@ -212,7 +186,7 @@ app.get('/employeeCount', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM users Where email = ? AND  password = ?";
+    const sql = "SELECT * FROM users Where email = ? AND password = ?";
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
         if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
         if(result.length > 0) {

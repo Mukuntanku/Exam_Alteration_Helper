@@ -13,7 +13,7 @@ function DispPDF() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`${process.env.NODE_URL}/timetable`, data)
+    axios.post('https://exam-alteration-helper.onrender.com/timetable', data)
       .then(res => {
         if (res.data.Status === "Success") {
           setError('');

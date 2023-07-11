@@ -13,7 +13,7 @@ function AddEmployee() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		axios.post(`${process.env.NODE_URL}/create`, data)
+		axios.post('https://exam-alteration-helper.onrender.com/create', data)
 		.then(res => {
 			if(res.data.Status === "Success") {
 				alert('New Faculty Created Successfully');

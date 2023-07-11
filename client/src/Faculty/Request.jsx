@@ -10,7 +10,7 @@ function Request() {
   const [stats, setStatus] = useState([]);
 
   useEffect(() => {
-    axios.get(`${process.env.NODE_URL}/examslot/` + id)
+    axios.get('https://exam-alteration-helper.onrender.com/examslot/' + id)
       .then(res => {
         setData(res.data.Result);
       })
@@ -18,7 +18,7 @@ function Request() {
   }, []);
 
   const getstatus = (tid) => {
-    return axios.get(`${process.env.NODE_URL}/getcurrentstatus/` + id + '/' + tid)
+    return axios.get('https://exam-alteration-helper.onrender.com/getcurrentstatus/' + id + '/' + tid)
       .then(res => {
         if (res.data.Status === "Success") {
           return res.data.Result;

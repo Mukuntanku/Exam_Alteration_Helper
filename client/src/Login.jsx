@@ -15,7 +15,7 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(`${process.env.NODE_URL}/login`, values)
+      .post('https://exam-alteration-helper.onrender.com/login', values)
       .then((res) => {
         if (res.data.Status === 'Success') {
           navigate('/');

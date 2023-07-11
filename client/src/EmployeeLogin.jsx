@@ -16,7 +16,7 @@ function EmployeeLogin() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post(`${process.env.NODE_URL}/employeelogin`, values)
+        axios.post('https://exam-alteration-helper.onrender.com/employeelogin', values)
         .then(res => {
             if(res.data.Status === 'Success') {
                 const id = res.data.id;

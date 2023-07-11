@@ -7,7 +7,7 @@ export function Products(props) {
 	const navigate = useNavigate()
 
     const handleLogout = () => {
-		axios.post(`${process.env.NODE_URL}/setrequest/`+id+'/'+props.id+'/'+props.mail)
+		axios.post('https://exam-alteration-helper.onrender.com/setrequest/'+id+'/'+props.id+'/'+props.mail)
 		.then(res => {
 			navigate('/fdashboard/status')
 		}).catch(err => console.log(err));
